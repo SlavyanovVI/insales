@@ -1,0 +1,24 @@
+parameters:
+    router.request_context.scheme: '%env(APPLICATION_SCHEME)%'
+    router.request_context.host: '%env(APPLICATION_HOST)%'
+
+    application.insales.application_id: '%env(APPLICATION_ID)%'
+    application.insales.application_secret: '%env(APPLICATION_SECRET)%'
+
+    application.dasha_mail.export_client_limit: '%env(DASHA_MAIL_EXPORT_LIMIT)%'
+    application.dasha_mail.install_email.url: '%env(DASHA_MAIL_INSTALL_APPLICATION_EMAIL_REQUEST_URL)%'
+    application.dasha_mail.install_email.salt: '%env(DASHA_MAIL_INSTALL_APPLICATION_EMAIL_REQUEST_SALT)%'
+
+    application.path.fail_email_report: '%kernel.cache_dir%/report/fail_email_report'
+services:
+    app.menu.builder:
+        class: App\Core\Domain\Infrastructure\Service\MenuBuilder
+        arguments:
+            - "@knp_menu.factory"
+            - "@request_stack"
+            - '@App\Core\Domain\Infrastructure\Application\Interfaces\ApplicationFetcherInterface'
+    app.menu.main:
+        class: Knp\Menu\MenuItem
+        factory: [ "@app.menu.builder", createMainMenu ]
+        tags:
+            - { name: knp_menu.menu, alias: main }

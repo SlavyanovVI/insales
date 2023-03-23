@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{{ asset('build/images/apple-touch-icon-180x180.png') }}" rel="apple-touch-icon" sizes="180x180">
+    <link href="{{ asset('build/images/touch-icon-192x192.png') }}" rel="icon" sizes="192x192">
+    <link rel="shortcut icon" href="{{ asset('build/images/favicon.ico') }}">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% extends 'layout/error-layout.html.twig' %}
+{% block title %}{{ "application_error_page.session_end.title"|trans }}{% endblock %}
+{% block body %}
+    <h1>
+        {{ "application_error_page.session_end.h1"|trans }}
+    </h1>
+    <div class="alert alert-danger">
+        {{ "application_error_page.session_end.content"|trans }}
+    </div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'layout/configuration-layout.html.twig' %}
+{% block title %}{{ "configuration.options.create_book.title"|trans }}{% endblock %}
+{% block body %}
+
+    <div class="application_options">
+        {% if application.authentication.authenticationError|length > 0 %}
+            <div class="alert alert-danger">
+                {{ application.authentication.authenticationError }}
+            </div>
+        {% endif %}
+
+        <div class="col-6 offset-3">
+            <h1>
+                {{ "configuration.options.create_book.title"|trans }}
+            </h1>
+
+            {% if application.options.addressBookId == 0 %}
+                <p>
+                    {{ "configuration.options.create_book.db_dont_configuration"|trans }}
+                </p>
+
+                <input type="text" required="required" name="title" placeholder="{{ "configuration.options.create_book.book_name"|trans }}" class="form-control">
+
+                <p></p>
+
+                <button class="btn btn-success js-create-address-book">
+                    <span class="spinner-border spinner-border-sm spinner-hide" role="status" aria-hidden="true"></span>
+                    &nbsp;
+                    {{ "configuration.options.create_book.create"|trans }}
+                </button>
+
+                <p></p>
+
+                <div class="errors"></div>
+            {% else %}
+
+                <div class="alert alert-info">
+                    {{ "configuration.options.create_book.use_book_name"|trans({'%book-name%' : application.options.addressBookTitle})|raw }}
+                </div>
+
+                {% if application.import.clientImportFinish == false or application.import.orderImportFinish == false %}
+
+                    <div class="alert alert-warning">
+                        {{ "configuration.options.first_sync_in_process"|trans }}
+                    </div>
+                {% else %}
+
+                    <div class="alert alert-secondary">
+                        {{ "configuration.options.ready_export_count"|trans( {'%client-count%' : application.readyExportClient } )|raw }}
+                    </div>
+
+                    {% if application.bouncedEmailCount > 0 %}
+                        <div class="alert alert-warning">
+                            {{ "configuration.options.bounced_email_count"|trans( {'%email-count%' : application.bouncedEmailCount } )|raw }}
+                        </div>
+                    {% endif %}
+
+                    {% if application.fakeEmailCount > 0 %}
+                        <div class="alert alert-warning">
+                            {{ "configuration.options.fake_email_count"|trans( {'%email-count%' : application.fakeEmailCount } )|raw }}
+                        </div>
+                    {% endif %}
+
+                    {% if application.bouncedEmailCount > 0 or application.fakeEmailCount > 0 %}
+                        <a href="{{ path('configuration.action.download-fail-emails', { uuid : application.uuid } ) }}" class="btn btn-primary" target="_blank">
+                            {{ "configuration.options.download_fail_email_report"|trans }}
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        let options = {
+            url : '{{ path(constant('\\App\\Core\\Ports\\Http\\Configuration\\Action\\CreateAddressBookAction::ROUTE_NAME'), { uuid : application.uuid}) }}'
+        }
+    </script>
+    {{ parent() }}
+{% endblock %}

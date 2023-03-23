@@ -1,0 +1,41 @@
+{% extends 'layout/configuration-layout.html.twig' %}
+{% block body %}
+
+    <div class="configuration_authentication">
+
+        {% if application.authentication.authenticationError|length > 0 %}
+
+            <div class="col-4 offset-4">
+                <div class="alert alert-danger">
+                    {{ application.authentication.authenticationError }}
+                </div>
+            </div>
+        {% endif %}
+
+        {{ form_start(form) }}
+
+        <div class="form-group row group-row">
+            <div class="col-4 offset-4">
+                {{ form_label(form.login, null, {label_attr : {'class' : 'col-form-label '}}) }}
+                {{ form_widget(form.login, {attr : {'class' : 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group row group-row">
+            <div class="col-4 offset-4">
+                {{ form_label(form.password, null, {label_attr : {'class' : 'col-form-label '}}) }}
+                {{ form_widget(form.password, {attr : {'class' : 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group row group-row">
+            <div class="col-4 offset-4 col-form-label">
+                <input type="submit" class="btn btn-success" value="{{ "global.authentication"|trans }}">
+                <a href="https://dashamail.ru/registration/?ref=&source=insales" target="_blank" class="btn btn-success">
+                    {{ "global.register"|trans }}
+                </a>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
